@@ -1,4 +1,6 @@
 import { create } from 'zustand'
+import { addProduct } from './addProductFlow'
+import { removeProduct } from './removeProductFlow'
 
 /**
  * The shape of a Prodcut object
@@ -28,32 +30,11 @@ export const useCart = create((set) => {
      * @param {string} productName 
      * @param {number} amount 
      */
-    addProduct: (productName, amount) => set((previousState) => {
-      // Does a product with name exists?
-      const productReference = productList.find((product) => product.name === productName)
-      if (!productReference) {
-        return // Just do Noop (No Operation) for now
-      }
-
-      const newCartItem = {
-        product: productReference,
-        amount
-      }
-
-      // Return what's changed
-      return {
-        cart: [...previousState.cart, newCartItem]
-      }
-    }),
+    addProduct: (productName, amount) => set((prev) => addProduct(prev, productName, amount)),
     /**
-     * Removes the given product from the cart
+     * Removes any matching products from the cart
      * @param {string} productName 
      */
-    removeProduct: (productName) => set((previousState) => {
-      // Return what's changed
-      return {
-
-      }
-    }),
+    removeProduct: (productName) => set((prev) => removeProduct(prev, productName)),
   }
 })
