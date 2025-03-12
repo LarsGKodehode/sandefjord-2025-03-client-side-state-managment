@@ -1,15 +1,23 @@
 import { create } from 'zustand'
 
+const key = "bears"
+
 export const useBearStore = create((set) => {
   return {
     // Tilstand som blir lagret
-    bears: 42,
+    bears: JSON.parse(window.localStorage.getItem(key)).bears || 0,
     // Metoder for å endre disse verdiene
     increaseBearPopulation: () => set((previousState) => {
-      return {
+      const newState = {
         bears: previousState.bears + 1
       }
+      window.localStorage.setItem(key, JSON.stringify(newState))
+      return newState
     }),
-    removeAllBears: () => set(() => ({bears: 0}))
+    removeAllBears: () => set(() => {
+      const newState = {bears: 0}
+      window.localStorage.set(key, JSON.stringify(newState))
+      return newState
+    })
   }
 })
