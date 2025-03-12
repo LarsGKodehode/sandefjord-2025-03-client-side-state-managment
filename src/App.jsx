@@ -1,7 +1,7 @@
-import { useState } from "react"
 import { Navbar } from "./components/Navbar/Navbar"
 import { useBearStore } from "./stores/bearStore/bearStore"
 import { productList, useCart } from "./stores/cartStore/cartStore"
+import {QuantitySelector} from './components/QuantitySelector/QuantitySelector'
 
 function App() {
   const increaseBearPopulation = useBearStore(
@@ -44,24 +44,14 @@ function App() {
               <p>Product: {product.name}</p>
               <p>Price: {product.price}</p>
 
-              <CartAdder onSubmit={(amount) => addProduct(product.name, amount)}  />
+              <QuantitySelector
+                onSubmit={(amount) => addProduct(product.name, amount)}
+                submitMessage="Add to cart"
+              />
             </li>
           ))}
         </ul>
       </section>
-    </div>
-  )
-}
-
-function CartAdder({onSubmit}) {
-  const [amount, setAmount] = useState(1)
-
-  return (
-    <div>
-      <button onClick={() => setAmount(prev => prev + 1)}>+</button>
-      <span>{amount}</span>
-      <button onClick={() => setAmount(prev => prev - 1)}>-</button>
-      <button onClick={() => onSubmit(amount)}>Add to cart</button>
     </div>
   )
 }
